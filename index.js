@@ -38,6 +38,14 @@ app.post('/add', (req, res) => {
     })
 })
 
+app.get('/deletar/:id', (req, res) => {
+    Post.destroy({where: {'id': req.params.id}}).then( () => {
+        res.send('Postagem deletada com sucesso!');
+    }).catch( () => {
+        res.send('Esta postagem não existe');
+    })
+})
+
 app.listen(8081, () => {
     console.log('Servidor rodando na url http://localhost:8081');
 })
