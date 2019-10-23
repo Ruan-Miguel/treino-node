@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
+const Post = require('./models/Post');
 
 //Config
 //Template engine
@@ -13,12 +14,24 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 //Rotas
+
+app.get('/', (req, res) => {
+    res.render('home');
+})
+
 app.get('/cad', (req, res) => {
     res.render('formulario');
 })
 
 app.post('/add', (req, res) => {
-    res.send(`Texto: ${req.body.titulo} Conteúdo: ${req.body.conteudo}`);
+    Post.create({
+        titulo: req.body.titulo,
+        conteudo: req.body.conteudo
+    }).then( () => {
+        res.redirect('/');
+    }).catch( (error) => {
+        res.send('Houve um erro: ' + error);
+    })
 })
 
 app.listen(8081, () => {
