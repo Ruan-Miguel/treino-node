@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
-const Sequelize = require('sequelize');
 
 //Config
 //Template engine
@@ -12,12 +11,6 @@ app.set('view engine', 'handlebars');
 //Body parser
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-
-//Conexao com o banco de dados
-const sequelize = new Sequelize('treino-node', 'postgres', '1234', {
-    host: 'localhost',
-    dialect: 'postgresql'
-})
 
 //Rotas
 app.get('/cad', (req, res) => {
