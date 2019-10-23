@@ -16,7 +16,9 @@ app.use(bodyParser.json());
 //Rotas
 
 app.get('/', (req, res) => {
-    res.render('home');
+    Post.findAll({order: [['id', 'DESC']]}).then( (posts) => {
+        res.render('home', { posts });
+    })
 })
 
 app.get('/cad', (req, res) => {
@@ -24,9 +26,11 @@ app.get('/cad', (req, res) => {
 })
 
 app.post('/add', (req, res) => {
+    const { body } = req;
+
     Post.create({
-        titulo: req.body.titulo,
-        conteudo: req.body.conteudo
+        titulo: body.titulo,
+        conteudo: body.conteudo
     }).then( () => {
         res.redirect('/');
     }).catch( (error) => {
